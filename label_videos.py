@@ -33,13 +33,13 @@ def get_random_video(vlist, vnum):
     
 def run_labeler():
     
-    state = SessionState.get(vnum=0)
+    state = SessionState.get(vnum=0, vlab=0)
     vlist = get_video_list()
     
     st.title("Emotion Labeler")
     st.write("Please label as many videos as you can. When done, simply close browser tab.")
     st.write("")
-    st.write(f"Total videos labeled in current session:{state.vnum}")
+    st.write(f"Total videos labeled in current session:{state.vlab}")
     st.write("Note: refreshing browser tab will reset counts.")
 
     vrnd, choices = get_random_video(vlist, state.vnum)
@@ -55,6 +55,7 @@ def run_labeler():
     
     if st.button('Get next video'):
         if labeled:
+            state.vlab += 1
             with open(labelfile,'a') as fd:
                 fd.write(f"{time.time()}, {SessionState.get_session_id()}, {vrnd}, {emo}\n")
         state.vnum += 1
