@@ -10,8 +10,10 @@ import re
 import time
 
 s3 = boto3.resource('s3')
+# specify S3 bucket with videos to label
 bucket = s3.Bucket('ashu-tb-1')
 bucket_path = 's3://ashu-tb-1/'
+# file to store labels
 labelfile = "vid_emo_labels.csv"
 
 
@@ -22,6 +24,7 @@ def get_video_list():
         oid = int(re.search(r'vid_(\d+)\.mp4', o.key).group(1))
         vlist.append(oid)
     return vlist
+
 
 @st.cache
 def get_random_video(vlist, vnum):
@@ -60,7 +63,6 @@ def run_labeler():
                 fd.write(f"{time.time()}, {SessionState.get_session_id()}, {vrnd}, {emo}\n")
         state.vnum += 1
         raise RerunException(RerunData(widget_state=None))
-
 
 
 
