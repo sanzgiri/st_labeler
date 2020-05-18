@@ -4,7 +4,7 @@ import SessionState
 from streamlit.ScriptRunner import RerunException
 from streamlit.ScriptRequestQueue import RerunData
 from streamlit import ReportSession
-from smart_open import smart_open
+from smart_open import open
 import boto3
 import re
 import time
@@ -27,8 +27,8 @@ def get_video_list():
 def get_random_video(vlist, vnum):
     num_vids = len(vlist)
     vrnd = vlist[np.random.randint(0, num_vids, 1)[0]]
-    choices = [f'Please select label for video id #{vrnd} :', 'Anger', 'Disgust', 'Fear', 'Joy', 'Neutral', 'Surprise', 'Sadness']
-    return vrnd, choices    
+    choices = [f'Select emotion for video id #{vrnd} :', 'Anger', 'Disgust', 'Fear', 'Joy', 'Neutral', 'Surprise', 'Sadness']
+    return vrnd, choices
     
     
 def run_labeler():
@@ -37,19 +37,20 @@ def run_labeler():
     vlist = get_video_list()
     
     st.title("Emotion Labeler")
-    st.write(f"Total Videos Labeled: {state.vnum}")
+    st.write("Please label as many videos as you can. When done, simply close browser tab.")
     st.write("")
-    st.write("Please label the primary emotion in the video below:")
-    
+    st.write(f"Total videos labeled in current session:{state.vnum}")
+    st.write("Note: refreshing browser tab will reset counts.")
+
     vrnd, choices = get_random_video(vlist, state.vnum)
     vpath = f'{bucket_path}vid_{vrnd}.mp4'
-    with smart_open(vpath, 'rb') as video_file:
-        video_bytes = video_file.read()
-    st.video(video_bytes)
+    with open(vpath, 'rb') as video_file:
+        vbytes = video_file.read()
+    st.video(vbytes)
     
     emo = st.selectbox('Emotion:', choices)
     
-    if st.button('Next video'):
+    if st.button('Get next video'):
         with open(labelfile,'a') as fd:
             fd.write(f"{time.time()}, {SessionState.get_session_id()}, {vrnd}, {emo}\n")
         state.vnum += 1
