@@ -95,3 +95,7 @@ def get(**kwargs):
         this_session._custom_session_state = SessionState(**kwargs)
 
     return this_session._custom_session_state
+    
+def get_session_id():
+    
+    return ReportThread.get_report_ctx().session_id
