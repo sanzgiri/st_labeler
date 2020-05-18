@@ -48,11 +48,15 @@ def run_labeler():
         vbytes = video_file.read()
     st.video(vbytes)
     
+    labeled = False
     emo = st.selectbox('Emotion:', choices)
+    if emo[:6] != "Select":
+        labeled=True
     
     if st.button('Get next video'):
-        with open(labelfile,'a') as fd:
-            fd.write(f"{time.time()}, {SessionState.get_session_id()}, {vrnd}, {emo}\n")
+        if labeled:
+            with open(labelfile,'a') as fd:
+                fd.write(f"{time.time()}, {SessionState.get_session_id()}, {vrnd}, {emo}\n")
         state.vnum += 1
         raise RerunException(RerunData(widget_state=None))
 
