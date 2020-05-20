@@ -136,14 +136,13 @@ def main():
     df = read_jarchive()
     state = SessionState.get(question_number=0, num_correct=0, score=0)
 
-                
+    st.title("Streamlit Jeopardy!")
+    
     category, question, answer, value = get_one_question(state.question_number, df)
     answered = False
-    st.write(f"Your score is {state.num_correct}/{state.question_number} and winnings are ${state.score}")
-    st.write("")
     
-    st.text(f"Question from category {category} for ${value}:")
-    st.text(f"    {question}")
+    st.write(f"Question from category {category} for ${value}:")
+    st.write(f"    {question}")
     response = st.text_input("What is: ", key=str(state.question_number))
         
     if (response != ''):
@@ -152,10 +151,10 @@ def main():
                 
         if (compare_strings(sresponse, sanswer) >= 0.5):
             answered = True
-            st.text(f"Correct! The reference answer is {answer}.")
+            st.write(f"Correct! The reference answer is {answer}.")
         else:
             answered = False
-            st.text(f"Sorry! Your response was {response}. The correct answer is {answer}.")
+            st.write(f"Sorry! Your response was {response}. The correct answer is {answer}.")
             
     if st.button('Next question'):
         state.question_number += 1
@@ -165,14 +164,17 @@ def main():
         else:
             state.score -= value
         raise RerunException(RerunData(widget_state=None))
+        
+    st.write(f"Your score is {state.num_correct}/{state.question_number} and winnings are ${state.score}")
+    st.write("")
     
-    if st.button('Reset'):
+    if st.button('Reset score'):
         state.question_number = 0
         state.num_correct = 0
         state.score = 0
         raise RerunException(RerunData(widget_state=None))
 
-    
+ 
 
 if __name__ == "__main__":
     main()
