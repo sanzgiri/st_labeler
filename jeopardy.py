@@ -134,7 +134,7 @@ def get_one_question(question_number, df):
 def main():
     
     df = read_jarchive()
-    state = SessionState.get(question_number=0, num_correct=0, score=0)
+    state = SessionState.get(question_number=1, num_correct=0, score=0)
 
     st.title("Streamlit Jeopardy!")
     
@@ -156,17 +156,19 @@ def main():
             answered = False
             st.write(f"Sorry! Your response was {response}. The correct answer is {answer}.")
             
-    if st.button('Next question'):
-        state.question_number += 1
         if (answered):
             state.num_correct += 1
             state.score += value
         else:
             state.score -= value
+        st.write(f"Your score is {state.num_correct}/{state.question_number} and winnings are ${state.score}")
+        st.write("")
+        
+            
+    if st.button('Next question'):
+        state.question_number += 1
         raise RerunException(RerunData(widget_state=None))
         
-    st.write(f"Your score is {state.num_correct}/{state.question_number} and winnings are ${state.score}")
-    st.write("")
     
     if st.button('Reset score'):
         state.question_number = 0
