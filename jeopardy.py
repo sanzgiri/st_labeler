@@ -112,7 +112,7 @@ def sanitize(string):
 
 @st.cache    
 def read_jarchive():
-    df = pd.read_csv('https://media.githubusercontent.com/media/sanzgiri/jarchive/master/jarchive.csv', skip=3, sep='\|\|', engine='python', names=['gid', 'airdate', 'rnd', 'category', 'value', 'text', 'answer'])
+    df = pd.read_csv('https://media.githubusercontent.com/media/sanzgiri/jarchive/master/jarchive.csv', skiprows=3, sep='\|\|', engine='python', names=['gid', 'airdate', 'rnd', 'category', 'value', 'text', 'answer'])
     df = df[df.text != ' = ']
     df = df[df.answer != ' = ']
     df = df[df.text != ' ? ']
