@@ -9,9 +9,11 @@ import SessionState
 
 #from streamlit.script_runner import ScriptRunner
 #from streamlit.script_request_queue import ScriptRequestQueue
+from streamlit.script_request_queue import RerunData
+from streamlit.script_runner import RerunException
 
-from streamlit.script_runner.ScriptRunner import RerunException
-from streamlit.script_request_queue.ScriptRequestQueue import RerunData
+#from streamlit.script_runner.ScriptRunner import RerunException
+#from streamlit.script_request_queue.ScriptRequestQueue import RerunData
 
 ### https://gist.github.com/scotta/1063364
 ### based on: http://www.catalysoft.com/articles/StrikeAMatch.html
