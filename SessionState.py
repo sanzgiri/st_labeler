@@ -15,7 +15,7 @@ result:
 >>> session_state.user_name
 'Mary'
 """
-import streamlit.ReportThread as ReportThread
+from streamlit.report_thread import ReportThread
 from streamlit.server.Server import Server
 
 
