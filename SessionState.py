@@ -17,6 +17,7 @@ result:
 """
 from streamlit.report_thread import ReportThread
 from streamlit.server.server import Server
+from streamlit.report_thread import get_report_ctx
 
 
 class SessionState(object):
@@ -62,7 +63,7 @@ def get(**kwargs):
     """
     # Hack to get the session object from Streamlit.
 
-    ctx = ReportThread.get_report_ctx()
+    ctx = get_report_ctx()
 
     this_session = None
     
