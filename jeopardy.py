@@ -140,6 +140,7 @@ def get_one_question(question_number, df):
 def main():
     
     df = read_jarchive()
+    st.write(df.head())
     state = SessionState.get(question_number=1, num_correct=0, score=0)
 
     st.title("Streamlit Jeopardy!")
