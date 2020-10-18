@@ -126,6 +126,8 @@ def get_one_question(question_number, df):
         
     if (value == ''):
         value = 100
+    elif (np.isnan(value)):
+        value = 100
     else:
         value = str(value).replace(',','')
         value = int(value)
