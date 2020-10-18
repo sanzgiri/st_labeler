@@ -15,9 +15,13 @@ result:
 >>> session_state.user_name
 'Mary'
 """
-from streamlit.report_thread import ReportThread
-from streamlit.server.server import Server
-from streamlit.report_thread import get_report_ctx
+try:
+    import streamlit.ReportThread as ReportThread
+    from streamlit.server.Server import Server
+except Exception:
+    # Streamlit >= 0.65.0
+    import streamlit.report_thread as ReportThread
+    from streamlit.server.server import Server
 
 
 class SessionState(object):
@@ -63,13 +67,13 @@ def get(**kwargs):
     """
     # Hack to get the session object from Streamlit.
 
-    ctx = get_report_ctx()
+    ctx = ReportThread.get_report_ctx()
 
     this_session = None
-    
+
     current_server = Server.get_current()
     if hasattr(current_server, '_session_infos'):
-        # Streamlit < 0.56        
+        # Streamlit < 0.56
         session_infos = Server.get_current()._session_infos.values()
     else:
         session_infos = Server.get_current()._session_info_by_id.values()
@@ -82,12 +86,15 @@ def get(**kwargs):
             or
             # Streamlit >= 0.54.0
             (not hasattr(s, '_main_dg') and s.enqueue == ctx.enqueue)
+            or
+            # Streamlit >= 0.65.2
+            (not hasattr(s, '_main_dg') and s._uploaded_file_mgr == ctx.uploaded_file_mgr)
         ):
             this_session = s
 
     if this_session is None:
         raise RuntimeError(
-            "Oh noes. Couldn't get your Streamlit Session object"
+            "Oh noes. Couldn't get your Streamlit Session object. "
             'Are you doing something fancy with threads?')
 
     # Got the session object! Now let's attach some state into it.
@@ -96,7 +103,3 @@ def get(**kwargs):
         this_session._custom_session_state = SessionState(**kwargs)
 
     return this_session._custom_session_state
-    
-def get_session_id():
-    
-    return ReportThread.get_report_ctx().session_id
