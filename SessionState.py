@@ -16,7 +16,7 @@ result:
 'Mary'
 """
 from streamlit.report_thread import ReportThread
-from streamlit.server.Server import Server
+from streamlit.server.server import Server
 
 
 class SessionState(object):
