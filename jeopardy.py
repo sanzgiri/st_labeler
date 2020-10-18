@@ -7,13 +7,8 @@ import streamlit as st
 import numpy as np
 import SessionState
 
-#from streamlit.script_runner import ScriptRunner
-#from streamlit.script_request_queue import ScriptRequestQueue
 from streamlit.script_request_queue import RerunData
 from streamlit.script_runner import RerunException
-
-#from streamlit.script_runner.ScriptRunner import RerunException
-#from streamlit.script_request_queue.ScriptRequestQueue import RerunData
 
 ### https://gist.github.com/scotta/1063364
 ### based on: http://www.catalysoft.com/articles/StrikeAMatch.html
@@ -173,14 +168,14 @@ def main():
             
     if st.button('Next question'):
         state.question_number += 1
-        raise RerunException(RerunData(widget_state=None))
+        raise RerunException(RerunData(widget_states=None))
         
     
     if st.button('Reset score'):
         state.question_number = 0
         state.num_correct = 0
         state.score = 0
-        raise RerunException(RerunData(widget_state=None))
+        raise RerunException(RerunData(widget_states=None))
 
  
 
