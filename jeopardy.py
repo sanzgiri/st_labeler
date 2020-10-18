@@ -127,7 +127,7 @@ def get_one_question(question_number, df):
     if (value == ''):
         value = 100
     else:
-        value = value.replace(',','')
+        value = str(value).replace(',','')
         value = int(value)
         
     question = row['text'].iloc[0]
