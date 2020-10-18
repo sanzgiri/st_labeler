@@ -112,7 +112,7 @@ def sanitize(string):
 
 @st.cache    
 def read_jarchive():
-    df = pd.read_csv('https://media.githubusercontent.com/media/sanzgiri/jarchive/master/jarchive.csv', skiprows=3, sep='\|\|', engine='python', names=['gid', 'airdate', 'rnd', 'category', 'value', 'text', 'answer'])
+    df = pd.read_csv('https://media.githubusercontent.com/media/sanzgiri/jarchive/master/jarchive.csv', skiprows=4, sep='\|\|', engine='python', names=['gid', 'airdate', 'rnd', 'category', 'value', 'text', 'answer'])
     df = df[df.text != ' = ']
     df = df[df.answer != ' = ']
     df = df[df.text != ' ? ']
@@ -126,10 +126,8 @@ def get_one_question(question_number, df):
         
     if (value == ''):
         value = 100
-    elif (np.isnan(value)):
-        value = 100
     else:
-        value = str(value).replace(',','')
+        value = value.replace(',','')
         value = int(value)
         
     question = row['text'].iloc[0]
