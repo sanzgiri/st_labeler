@@ -6,8 +6,9 @@ import os
 import streamlit as st
 import numpy as np
 import SessionState
-from streamlit.ScriptRunner import RerunException
-from streamlit.ScriptRequestQueue import RerunData
+
+from streamlit.script_runner.ScriptRunner import RerunException
+from streamlit.script_runner.ScriptRequestQueue import RerunData
 
 ### https://gist.github.com/scotta/1063364
 ### based on: http://www.catalysoft.com/articles/StrikeAMatch.html
